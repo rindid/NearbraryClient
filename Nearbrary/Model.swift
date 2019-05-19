@@ -17,5 +17,23 @@ class book {
     var pubdate:String?
     var author:String?
     var publisher:String?
-    var isbn:Int?
+    var isbn:String?
+    
+    init() {
+        
+    }
+    
+    func getPosterImage() {
+        guard imageURL != nil else {
+            return
+        }
+        if let url = URL(string: imageURL!) {
+            if let imgData = try? Data(contentsOf: url) {
+                if let image = UIImage(data: imgData) {
+                    self.image = image
+                }
+            }
+        }
+        return
+    }
 }

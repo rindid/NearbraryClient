@@ -8,10 +8,14 @@
 
 import UIKit
 
-class BookCell: UITableViewCell {
+class BooksTableViewCell: UITableViewCell {
     
     @IBOutlet var title: UILabel!
     @IBOutlet var author: UILabel!
     @IBOutlet var publisher: UILabel!
     @IBOutlet var pubdate: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
 }
