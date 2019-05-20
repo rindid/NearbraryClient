@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import os.log
+import SafariServices
+
 
 class BooksTableViewController: UITableViewController, XMLParserDelegate {
     
@@ -14,8 +17,8 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
     
     let posterImageQueue = DispatchQueue(label: "posterImage")
     
-    let clientID = "EnYPVzLcy1OEmyXG2b3I"
-    let clientSecret = "xJAMQ7K8Yc"
+    let clientID = "FyOXvDvPu37mE9tNUNyM"
+    let clientSecret = "LdfdMzoeVV"
     
 
     /*var dataset = [
@@ -45,7 +48,7 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
             return
         }
         
-        let urlString =  "https://openapi.naver.com/v1/search/book.xml" + query
+        let urlString =  "https://openapi.naver.com/v1/search/book.xml?query=" + query
         let urlWithPercentEscapes = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
         let url = URL(string: urlWithPercentEscapes!)
         
@@ -86,7 +89,7 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
         task.resume()
     }
     
-    func parser(_ parseer: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         if elementName == "title" || elementName == "link" || elementName == "image" || elementName == "pubdate" || elementName == "isbn" || elementName == "author" || elementName == "publisher" {
             currentElement = ""
             if elementName == "title" {
