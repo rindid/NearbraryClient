@@ -109,17 +109,17 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
             item?.link = currentElement
         } else if elementName == "image" {
             item?.imageURL = currentElement
-        } else if elementName == "pubdate" {
-            item?.pubdate = currentElement
+        } else if elementName == "isbn" {
+            item?.isbn = currentElement
         } else if elementName == "publisher" {
-            item?.publisher = currentElement
+            item?.publisher = currentElement.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         } else if elementName == "author" {
-            item?.author = currentElement
+            item?.author = currentElement.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
             if item?.author != "" {
                 item?.author?.removeLast()
             }
-        } else if elementName == "isbn" {
-            item?.isbn = currentElement
+        } else if elementName == "pubdate" {
+            item?.pubdate = currentElement
             books.append(self.item!)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
