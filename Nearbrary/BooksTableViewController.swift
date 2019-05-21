@@ -15,7 +15,7 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
     
     @IBOutlet var titleNavigationItem: UINavigationItem!
     
-    let posterImageQueue = DispatchQueue(label: "posterImage")
+    let bookImageQueue = DispatchQueue(label: "bookImage")
     
     let clientID = "FyOXvDvPu37mE9tNUNyM"
     let clientSecret = "LdfdMzoeVV"
@@ -57,8 +57,7 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
         request.addValue(clientID, forHTTPHeaderField: "X-Naver-Client-Id")
         request.addValue(clientSecret, forHTTPHeaderField: "X-Naver-Client-Secret")
         
-        let task = URLSession.shared.dataTask(with: request) {
-            data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 print(error as Any)
                 return
@@ -109,17 +108,14 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
             item?.link = currentElement
         } else if elementName == "image" {
             item?.imageURL = currentElement
-        } else if elementName == "isbn" {
-            item?.isbn = currentElement
-        } else if elementName == "publisher" {
-            item?.publisher = currentElement.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         } else if elementName == "author" {
             item?.author = currentElement.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-            if item?.author != "" {
-                item?.author?.removeLast()
-            }
+        } else if elementName == "publisher" {
+            item?.publisher = currentElement.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
         } else if elementName == "pubdate" {
             item?.pubdate = currentElement
+        } else if elementName == "isbn" {
+            item?.isbn = currentElement
             books.append(self.item!)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -160,6 +156,21 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
             cell.pubdate.text = "정보 없음"
         } else {
             cell.pubdate.text = "\(pubdate)"
+        }
+        
+        if let bookImage = book.image {
+            cell.bookImageView.image = bookImage
+        } else {
+            cell.bookImageView.image = UIImage(named: "noImage")
+            bookImageQueue.async(execute: {
+                book.getBookImage()
+                guard let thumbImage = book.image else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    cell.bookImageView.image = thumbImage
+                }
+            })
         }
         
         return cell

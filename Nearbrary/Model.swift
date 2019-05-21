@@ -14,16 +14,16 @@ class book {
     var link:String?
     var imageURL:String?
     var image:UIImage?
-    var pubdate:String?
     var author:String?
     var publisher:String?
     var isbn:String?
+    var pubdate:String?
     
     init() {
         
     }
     
-    func getPosterImage() {
+    func getBookImage() {
         guard imageURL != nil else {
             return
         }

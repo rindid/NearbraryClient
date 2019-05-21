@@ -204,6 +204,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="author" destination="4em-uh-OB7" id="CDz-DP-Wrb"/>
+                                    <outlet property="bookImageView" destination="zPz-1Y-6DZ" id="iYv-Cz-Kir"/>
                                     <outlet property="pubdate" destination="P7Q-mI-RGL" id="A96-lW-URc"/>
                                     <outlet property="publisher" destination="zDL-Wc-nWN" id="ZXN-Kh-wb6"/>
                                     <outlet property="title" destination="Xr3-BL-6kw" id="K1o-Ug-ePA"/>
