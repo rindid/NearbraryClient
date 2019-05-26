@@ -87,6 +87,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="ZgS-nk-9iD">
+                            <rect key="frame" x="0.0" y="154" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dmP-ld-bGT">
+                                    <rect key="frame" x="168" y="7" width="39" height="30"/>
+                                    <state key="normal" title="더보기"/>
+                                    <connections>
+                                        <action selector="more:" destination="hgB-LC-dLm" eventType="touchUpInside" id="ZzJ-WV-aqg"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="dmP-ld-bGT" firstAttribute="centerY" secondItem="ZgS-nk-9iD" secondAttribute="centerY" id="0fL-0S-RlM"/>
+                                <constraint firstItem="dmP-ld-bGT" firstAttribute="centerX" secondItem="ZgS-nk-9iD" secondAttribute="centerX" id="TtY-sP-xLQ"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="bookCellIdentifier" rowHeight="126" id="6fO-YY-Zy5" customClass="BooksTableViewCell" customModule="Nearbrary" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="126"/>

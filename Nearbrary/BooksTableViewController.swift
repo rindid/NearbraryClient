@@ -33,6 +33,14 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
     var currentElement: String = ""
     var item : book? = nil
     
+    var page = 1
+    @IBAction func more(_ sender: Any) {
+        self.page += 10
+        self.searchBooks()
+        self.tableView.reloadData()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let title = queryText {
@@ -48,7 +56,7 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
             return
         }
         
-        let urlString =  "https://openapi.naver.com/v1/search/book.xml?query=" + query
+        let urlString =  "https://openapi.naver.com/v1/search/book.xml?query=" + query + "&display=10&start=\(self.page)"
         let urlWithPercentEscapes = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
         let url = URL(string: urlWithPercentEscapes!)
         
@@ -132,31 +140,13 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "bookCellIdentifier", for: indexPath) as! BooksTableViewCell
         let book = books[indexPath.row]
-        guard let title = book.title, let pubdate = book.pubdate, let publisher = book.publisher, let author = book.author else {
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "bookCellIdentifier") as! BooksTableViewCell
         
-        cell.title.text = "\(title)"
-        
-        if author == "" {
-            cell.author.text = "정보 없음"
-        } else {
-            cell.author.text = "\(author)"
-        }
-        
-        if publisher == "" {
-            cell.publisher.text = "정보 없음"
-        } else {
-            cell.publisher.text = "\(publisher)"
-        }
-        
-        if pubdate == "" {
-            cell.pubdate.text = "정보 없음"
-        } else {
-            cell.pubdate.text = "\(pubdate)"
-        }
+        cell.title?.text = book.title
+        cell.author?.text = book.author
+        cell.publisher?.text = book.publisher
+        cell.pubdate?.text = book.pubdate
         
         if let bookImage = book.image {
             cell.bookImageView.image = bookImage
