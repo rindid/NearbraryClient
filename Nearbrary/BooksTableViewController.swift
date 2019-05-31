@@ -75,14 +75,6 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
                 return
             }
             
-            self.item?.author = ""
-            self.item?.isbn = ""
-            self.item?.imageURL = ""
-            self.item?.link = ""
-            self.item?.pubdate = ""
-            self.item?.title = ""
-            self.item?.publisher = ""
-            
             let parser = XMLParser(data: Data(data))
             parser.delegate = self
             let success:Bool = parser.parse()
