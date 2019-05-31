@@ -33,30 +33,29 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
     var currentElement: String = ""
     var item : book? = nil
     
-    var page = 1
+    var start = 1
     @IBAction func more(_ sender: Any) {
-        self.page += 10
+        self.start += 10
         self.searchBooks()
-        self.tableView.reloadData()
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         if let title = queryText {
             titleNavigationItem.title = title
         }
-        searchBooks()
+        self.searchBooks()
     }
     
     func searchBooks() {
-        books = []
         
         guard let query = queryText else {
             return
         }
         
-        let urlString =  "https://openapi.naver.com/v1/search/book.xml?query=" + query + "&display=10&start=\(self.page)"
+        let urlString =  "https://openapi.naver.com/v1/search/book.xml?query=" + query + "&display=10&start=\(self.start)"
         let urlWithPercentEscapes = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
         let url = URL(string: urlWithPercentEscapes!)
         
@@ -140,13 +139,31 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "bookCellIdentifier", for: indexPath) as! BooksTableViewCell
         let book = books[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "bookCellIdentifier") as! BooksTableViewCell
+        guard let title = book.title, let author = book.author, let publisher = book.publisher, let pubdate = book.pubdate else {
+            return cell
+        }
         
-        cell.title?.text = book.title
-        cell.author?.text = book.author
-        cell.publisher?.text = book.publisher
-        cell.pubdate?.text = book.pubdate
+        cell.title.text = "\(title)"
+        
+        if author == "" {
+            cell.author.text = "정보 없음"
+        } else {
+            cell.author.text = "\(author)"
+        }
+        
+        if publisher == "" {
+            cell.publisher.text = "정보 없음"
+        } else {
+            cell.publisher.text = "\(publisher)"
+        }
+        
+        if pubdate == "" {
+            cell.pubdate.text = "정보 없음"
+        } else {
+            cell.pubdate.text = "\(pubdate)"
+        }
         
         if let bookImage = book.image {
             cell.bookImageView.image = bookImage
@@ -167,6 +184,8 @@ class BooksTableViewController: UITableViewController, XMLParserDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let book = books[indexPath.row]
         NSLog("선택된 행은 \(indexPath.row) 번째 행입니다")
+        NSLog("\(book.title!)")
     }
 }
